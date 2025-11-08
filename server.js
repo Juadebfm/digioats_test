@@ -55,6 +55,10 @@ const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI, {
       bufferCommands: false,
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
     });
     isConnected = true;
     console.log("DB Connection Successful");
@@ -67,13 +71,20 @@ const connectDB = async () => {
 // SERVERLESS EXPORT - THIS IS CRITICAL
 const handler = async (req, res) => {
   try {
+    console.log("Handler started - attempting DB connection");
     await connectDB();
+    console.log("DB connected successfully - processing request");
     return app(req, res);
   } catch (error) {
-    console.error("Server error:", error);
+    console.error("Server error details:", {
+      message: error.message,
+      stack: error.stack,
+      name: error.name,
+    });
     res.status(500).json({
       error: "Internal server error",
       message: error.message,
+      type: error.name,
     });
   }
 };
