@@ -34,6 +34,7 @@ app.get("/", (req, res) => {
 });
 
 // actual endpoints
+
 app.use("/api/application", applicationRoutes);
 app.use("/api/serviceInquiry", serviceInquiryRoutes);
 app.use("/api/generalInquiry", generalInquiryRoutes);
@@ -42,6 +43,12 @@ app.use("/api/donation", donationRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/otcInquiry", otcInquiryRoutees);
 app.use("/api/research", researchRoutes);
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error("Global error handler:", err);
+  res.status(500).json({ error: "Something went wrong", details: err.message });
+});
 
 // Connect DB with serverless optimization
 let isConnected = false;

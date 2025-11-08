@@ -23,8 +23,10 @@ const generateTokens = (adminId, tokenVersion) => {
 };
 
 // register admin
+
 const register = async (req, res) => {
   try {
+    console.log("Register endpoint hit", req.body);
     const { email, password } = req.body;
 
     // check if the admin already exists
