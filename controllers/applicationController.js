@@ -1,4 +1,4 @@
-const Application = require("../models/application.models");
+const Application = require("../models/Application.models");
 const mongoose = require("mongoose");
 
 //submit application
