@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const Admin = require("../models/Admin.models");
+const { JWT_SECRET } = require("../config/env");
 
 // create middleware function for auth
 
@@ -15,7 +16,7 @@ const auth = async (req, res, next) => {
     }
 
     // Verify
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, JWT_SECRET);
 
     // Get admin from database
     const admin = await Admin.findById(decoded.adminId).select("-password");

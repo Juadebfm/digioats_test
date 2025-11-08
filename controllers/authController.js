@@ -1,16 +1,17 @@
 const Admin = require("../models/Admin.models");
 const jwt = require("jsonwebtoken");
+const { JWT_SECRET, REFRESH_TOKEN_SECRET } = require("../config/env");
 
 // Helper function to create access token with version
 const createAccessToken = (adminId, tokenVersion) => {
-  return jwt.sign({ adminId, tokenVersion }, process.env.JWT_SECRET, {
+  return jwt.sign({ adminId, tokenVersion }, JWT_SECRET, {
     expiresIn: "1h",
   });
 };
 
 // Helper function to create refresh token with version
 const createRefreshToken = (adminId, tokenVersion) => {
-  return jwt.sign({ adminId, tokenVersion }, process.env.REFRESH_TOKEN_SECRET, {
+  return jwt.sign({ adminId, tokenVersion }, REFRESH_TOKEN_SECRET, {
     expiresIn: "7d",
   });
 };
@@ -126,7 +127,7 @@ const refreshToken = async (req, res) => {
     }
 
     // verify refresh token
-    const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+    const decoded = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
 
     // check if admin exists
     const admin = await Admin.findById(decoded.adminId);

@@ -9,9 +9,7 @@ const donationRoutes = require("./routes/donation");
 const otcInquiryRoutees = require("./routes/otcInquiry");
 const researchRoutes = require("./routes/research");
 const cors = require("cors");
-
-// enables usage of .env files
-require("dotenv").config();
+const config = require("./config/env");
 
 // create the expres app
 const app = express();
@@ -60,7 +58,7 @@ const connectDB = async () => {
   }
 
   try {
-    await mongoose.connect(process.env.MONGO_URI, {
+    await mongoose.connect(config.MONGO_URI, {
       bufferCommands: false,
       useNewUrlParser: true,
       useUnifiedTopology: true,
